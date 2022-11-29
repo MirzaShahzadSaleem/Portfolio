@@ -1,0 +1,284 @@
+.resume-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    min-height: fit-content;
+    margin: 120px 0;
+    overflow-x: hidden;
+  }
+  
+  .fade-in {
+    transition: all 0.8s ease;
+  }
+  
+  .heading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 0 0 50px;
+  }
+  
+  .screen-heading {
+    font-size: 32px;
+    color: #1f2235;
+    font-family: Poppins-Bold;
+  }
+  
+  .screen-sub-heading {
+    letter-spacing: 3px;
+    margin: 8px 0 10px;
+    font-size: 12px;
+    color: #333333;
+  }
+  
+  .heading-seperator {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 180px;
+    margin: 10px 0 0;
+  }
+  
+  .seperator-line {
+    width: 100%;
+    height: 2px;
+    background-color: #1f221f;
+  }
+  
+  .seperator-blob {
+    height: 10px;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .seperator-blob div {
+    width: 35px;
+    border-radius: 20px;
+    background-color: #ff5823;
+  }
+  
+  .resume-card {
+    width: 90%;
+    display: flex;
+  }
+  
+  .resume-bullets {
+    box-shadow: 15px 0 9px -15px #1f2235;
+    height: 100%;
+    width: 30%;
+  }
+  
+  .bullet-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  
+  .bullet-icons {
+    width: 34px;
+    height: 100%;
+    z-index: 1;
+    background-color: #1f2235;
+    position: absolute;
+  }
+  
+  .bullets {
+    width: 86%;
+    position: relative;
+    padding: 15px 0;
+    z-index: 2;
+  }
+  
+  .selected-bullet {
+    color: white;
+    width: 100% !important;
+    background-color: #1f2235;
+  }
+  
+  .bullet {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    height: 50px;
+    margin: 15px 0;
+    padding: 0 8px;
+    border-radius: 20px;
+    width: 100%;
+    transition: width 0.6s ease;
+  }
+  
+  .bullet-logo {
+    width: 16px;
+    margin: 0 30px 0 0;
+  }
+  
+  .bullet-label {
+    font-size: 14px;
+    white-space: nowrap;
+    font-family: "Poppins-SemiBold";
+  }
+  
+  @media only screen and (max-width: 1110px) {
+    .resume-bullet-details {
+      padding: 0 0 0 70px;
+    }
+  }
+  /* @media only screen and (max-width:) */
+  .resume-details-carousal {
+    transition: transform 1s ease-out, -webkit-transform 1s ease-out;
+  }
+  
+  .hiden {
+    opacity: -1;
+  }
+  
+  .resume-screen-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .resume-screen-container {
+    justify-content: space-evenly;
+    width: 100%;
+    height: 360px;
+    margin-left: 43px;
+    text-align: start;
+  }
+  @media only screen and (max-width: 1023px) {
+    .resume-screen-container {
+      justify-content: space-evenly;
+      width: 100%;
+      height: 360px;
+      margin: 0;
+    }
+    .heading-date {
+      background-color: #ff5823;
+      padding: 4px 12px;
+      margin: 0 0px 0 20px !important;
+      font-size: 14px;
+      border-radius: 14px;
+      color: white;
+    }
+  }
+  .resume-bullet-details {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+  .resume-heading {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .resume-main-heading {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .heading-bullet {
+    position: absolute;
+    left: -30px;
+    width: 15px;
+    height: 15px;
+    top: 5px;
+    border-radius: 50%;
+    background-color: #ff5823;
+  }
+  
+  .resume-main-heading span {
+    color: #ff5823;
+    font-size: 16px;
+    font-family: "Poppins-SemiBold";
+    text-align: justify;
+  }
+  .heading-date {
+    background-color: #ff5823;
+    padding: 4px 12px;
+    margin: 0 43px 0 0px;
+    font-size: 14px;
+    border-radius: 14px;
+    color: white;
+  }
+  
+  .resume-sub-heading {
+    display: flex;
+    justify-content: start;
+    font-size: 14px;
+    font-family: "Poppins-SemiBold";
+    color: #333333;
+    margin: 10px 0 10px 0;
+  }
+  
+  .resume-heading-description {
+    font-size: 12px;
+    text-align: justify;
+  }
+  
+  .experience-description {
+    max-width: 100%;
+    text-align: start;
+  }
+  .resume-description-text {
+    font-size: 12px;
+  }
+  
+  @media only screen and (max-width: 1023px) {
+    .resume-card {
+      height: -webkit-fit-content;
+      /* height: -moz-fit-content; */
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      margin: 30px 0;
+      align-items: center;
+      width: 90%;
+    }
+    .resume-bullets {
+      width: 100%;
+      z-index: 2;
+      background-color: #fff;
+    }
+    /* .heading-bullet {
+      display: none;
+    } */
+  }
+  @media only screen and (max-width: 1023px) {
+    .bullets {
+      width: 90%;
+    }
+  }
+  
+  @media only screen and (max-width: 1023px) {
+    .resume-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+  }
+  
+  .resume-bullet-details {
+    height: 360px;
+    padding: 0;
+    width: auto;
+  }
+  @media only screen and (min-width: 1023px) {
+    .resume-bullet-datails {
+      flex-grow: 1;
+      width: 600px;
+      overflow: hidden;
+      padding: 0 0 0 80px;
+    }
+  }
+  
+  @media only screen and (max-width: 1023px) {
+    .selected-bullet {
+      width: 100%;
+    }
+  }
+  

@@ -1,0 +1,47 @@
+.programming-skills-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    height: 360px;
+    width: 100%;
+    margin-left: 43px;
+    text-align: start;
+  }
+  
+  .skill-parent {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 50%;
+  }
+  
+  .heading-bullet {
+    position: absolute;
+    left: -30px;
+    height: 15px;
+    width: 15px;
+    top: 5px;
+    border-radius: 50%;
+    background-color: #ff5823;
+  }
+  .skill-parent span {
+    font-family: "Poppins Bold";
+    font-size: 16px;
+    color: #ff5823;
+  }
+  
+  .skill-percentage {
+    position: relative;
+    height: 15px;
+    width: 70%;
+    background-color: #ff5823;
+  }
+  .skill-percentage .active-percentage-bar {
+    height: 15px;
+    transition: 0.8s ease;
+    position: absolute;
+    background-color: #1f2235;
+  }
+  

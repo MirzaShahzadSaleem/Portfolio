@@ -1,0 +1,103 @@
+.header-container {
+    display: flex;
+    justify-content: center;
+    height: 149px;
+    color: white;
+  }
+  
+  .header-parent {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    width: 70%;
+  }
+  
+  .header-logo {
+    font-size: 50px;
+    font-family: "Poppins-ExtraBold";
+    color: white;
+  }
+  
+  .header-options {
+    display: flex;
+    align-items: center;
+  }
+  
+  .selected-header-option {
+    color: #ff5823 !important;
+  }
+  
+  .header-option-seperator {
+    margin: 0 50px 0 0;
+    color: white;
+  }
+  
+  .header-option {
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .header-hamburger {
+    display: none;
+    color: white;
+  }
+  
+  @media only screen and (max-width: 970px) {
+    .header-parent {
+      width: 100%;
+      padding: 0 40px;
+      position: relative;
+    }
+  }
+  
+  @media only screen and (max-width: 970px) {
+    .header-hamburger {
+      display: block;
+    }
+  }
+  
+  @media only screen and (max-width: 970px) {
+    .header-options {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      left: -100%;
+      transition: all 0.8s ease-out;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      justify-content: space-around;
+      background-color: #1f2235;
+      z-index: 1000;
+      opacity: 0.5;
+    }
+  }
+  
+  @media only screen and (max-width: 970px) {
+    .show-hamburger-options {
+      left: 0;
+      opacity: 1;
+    }
+  }
+  .close {
+    display: none;
+  }
+  
+  @media only screen and (max-width: 970px) {
+    .close {
+      display: block;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: white;
+      background-color: rgb(248, 1, 1);
+      font-size: 1.5rem;
+      border: 1px solid rgb(250, 145, 7);
+      padding: 4px 10px;
+      opacity: 1;
+      border-radius: 5px;
+    }
+  }
+  
