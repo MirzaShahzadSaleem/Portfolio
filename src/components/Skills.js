@@ -4,21 +4,19 @@ import { skills } from "../data/content";
 
 export default function Skills() {
   return (
-    <Section id="skills" title="Skills">
-      <dl className="skills">
-        {skills.map((g, i) => (
-          <div key={g.group} className="skill-row" style={{ "--i": i }}>
-            <dt>{g.group}</dt>
-            <dd>
-              <ul className="tags">
-                {g.items.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ul>
-            </dd>
+    <Section id="skills" label="⌘ skills" title="My toolkit">
+      <div className="skills">
+        {skills.map((g) => (
+          <div key={g.group} className="skill-group">
+            <h3>{g.group}</h3>
+            <div className="minikeys">
+              {g.items.map((s) => (
+                <span key={s} className="minikey">{s}</span>
+              ))}
+            </div>
           </div>
         ))}
-      </dl>
+      </div>
     </Section>
   );
 }

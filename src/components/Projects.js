@@ -4,23 +4,22 @@ import { projects } from "../data/content";
 
 export default function Projects() {
   return (
-    <Section id="projects" title="Projects">
-      <ul className="cards">
+    <Section id="projects" label="⌘ projects" title="Things I've built">
+      <div className="grid">
         {projects.map((p, i) => (
-          <li key={p.title} className="card" style={{ "--i": i }}>
-            <p className="card-meta">{p.type}</p>
-            <div>
-              <h3 className="card-title">{p.title}</h3>
-              <p className="card-text">{p.description}</p>
-              <ul className="tags">
-                {p.stack.map((s) => (
-                  <li key={s}>{s}</li>
-                ))}
-              </ul>
+          <article key={p.title} className="panel project" style={{ "--i": i }}>
+            <div className="project-top">
+              <span className="mono">⌘ {String(i + 1).padStart(2, "0")}</span>
+              <span className="type">{p.type}</span>
             </div>
-          </li>
+            <h3>{p.title}</h3>
+            <p>{p.description}</p>
+            <ul className="chips">
+              {p.stack.map((s) => <li key={s}>{s}</li>)}
+            </ul>
+          </article>
         ))}
-      </ul>
+      </div>
     </Section>
   );
 }
