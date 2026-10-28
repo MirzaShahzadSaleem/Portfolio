@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import db from "../firebase";
+import { emailConfigured, sendNotification } from "../email";
 import { profile, experience, projects, skills, education, certifications, marketplaces } from "../data/content";
 
 const HUES = [255, 160, 25, 210, 330, 190, 45];
@@ -157,26 +158,31 @@ const EMPTY = { name: "", email: "", message: "" };
 
 export function ContactCard() {
   const [form, setForm] = useState(EMPTY);
+  const [trap, setTrap] = useState("");
   const [status, setStatus] = useState({ state: "idle", text: "" });
 
   const update = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-  const fail = (error) =>
-    setStatus({ state: "error", text: `Sorry, that didn't send (${error.message}). Please email him instead.` });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setStatus({ state: "sending", text: "" });
+  const save = async () => {
     try {
-      db.firestore()
-        .collection("Contact")
-        .add(form)
-        .then(() => {
-          setStatus({ state: "ok", text: "Message sent! He'll get back to you soon." });
-          setForm(EMPTY);
-        })
-        .catch(fail);
+      await db.firestore().collection("Contact").add({ ...form, createdAt: new Date().toISOString() });
     } catch (error) {
-      fail(error);
+      throw new Error(`save: ${error.message}`);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (trap) return setStatus({ state: "ok", text: "Message sent! He'll get back to you soon." });
+    setStatus({ state: "sending", text: "" });
+    // Run both so one failing doesn't lose the message; it only fails if neither worked.
+    const jobs = [save(), emailConfigured ? sendNotification(form) : Promise.reject(new Error("email not configured"))];
+    const results = await Promise.allSettled(jobs);
+    if (results.some((r) => r.status === "fulfilled")) {
+      setStatus({ state: "ok", text: "Message sent! He'll get back to you soon." });
+      setForm(EMPTY);
+    } else {
+      setStatus({ state: "error", text: "Sorry, that didn't send. Please email him directly instead." });
     }
   };
 
@@ -187,6 +193,7 @@ export function ContactCard() {
           <input name="name" placeholder="Your name" value={form.name} onChange={update} required autoComplete="name" aria-label="Your name" />
           <input type="email" name="email" placeholder="Your email" value={form.email} onChange={update} required autoComplete="email" aria-label="Your email" />
         </div>
+        <input name="website" value={trap} onChange={(e) => setTrap(e.target.value)} className="trap" tabIndex={-1} autoComplete="off" aria-hidden="true" />
         <textarea name="message" rows="3" placeholder="Your message" value={form.message} onChange={update} required aria-label="Your message" />
         <button className="btn" type="submit" disabled={status.state === "sending"}>
           {status.state === "sending" ? "Sending…" : "Send message"}
