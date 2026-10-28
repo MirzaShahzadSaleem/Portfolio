@@ -1,75 +1,46 @@
-import React, { useEffect, useState } from "react";
-import Icon from "./Icons";
-import { profile } from "../data/content";
+import React from "react";
+import { QUESTIONS } from "../chat/answers";
+import { profile, experience } from "../data/content";
 
-export const SECTIONS = [
+const TOPICS = [
   ["about", "About"],
+  ["now", "Right now"],
   ["experience", "Experience"],
   ["projects", "Projects"],
-  ["skills", "Skills"],
+  ["skills", "Tech stack"],
+  ["education", "Education"],
+  ["resume", "Résumé"],
   ["contact", "Contact"],
 ];
 
-export default function Sidebar() {
-  const [active, setActive] = useState("about");
-
-  useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
-      { rootMargin: "-40% 0px -55% 0px" }
-    );
-    SECTIONS.forEach(([id]) => {
-      const el = document.getElementById(id);
-      if (el) io.observe(el);
-    });
-    return () => io.disconnect();
-  }, []);
-
-  const socials = [
-    ["github", "GitHub", profile.github],
-    ["linkedin", "LinkedIn", profile.linkedin],
-    ["mail", "Email", `mailto:${profile.email}`],
-    ["file", "Resume", profile.resume],
-  ];
-
+export default function Sidebar({ onAsk, busy }) {
   return (
-    <header className="sidebar">
-      <div>
-        <h1 className="name intro" style={{ "--i": 0 }}>
-          <a href="#about">{profile.name}</a>
-        </h1>
-        <p className="role intro" style={{ "--i": 1 }}>{profile.role}</p>
-        <p className="tagline intro" style={{ "--i": 2 }}>{profile.tagline}</p>
-        <p className="status intro" style={{ "--i": 3 }}>
-          <i aria-hidden="true" /> Open to new opportunities
-        </p>
-        <nav className="nav intro" style={{ "--i": 4 }} aria-label="Sections">
-          <ul>
-            {SECTIONS.map(([id, label]) => (
-              <li key={id}>
-                <a href={`#${id}`} className={active === id ? "active" : ""}>
-                  <span className="nav-line" />
-                  {label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+    <aside className="side">
+      <div className="profile">
+        <div className="avatar" aria-hidden="true">SS</div>
+        <div>
+          <h1>{profile.name}</h1>
+          <p className="role">{profile.role} · {profile.years} years</p>
+        </div>
       </div>
-      <ul className="socials intro" style={{ "--i": 5 }}>
-        {socials.map(([icon, label, href]) => (
-          <li key={icon}>
-            <a
-              href={href}
-              aria-label={label}
-              title={label}
-              {...(icon !== "mail" ? { target: "_blank", rel: "noreferrer" } : {})}
-            >
-              <Icon name={icon} />
-            </a>
-          </li>
+      <p className="status"><i aria-hidden="true" /> Open to opportunities</p>
+      <p className="now-at">Currently {experience[0].role} at <b>{experience[0].company}</b></p>
+      <div className="links">
+        <a href={profile.resume} download>Résumé ↓</a>
+        <a href={profile.github} target="_blank" rel="noreferrer">GitHub</a>
+        <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href={`mailto:${profile.email}`}>Email</a>
+      </div>
+      <nav className="topics" aria-label="Topics">
+        <p>Ask about</p>
+        {TOPICS.map(([key, label]) => (
+          <button key={key} onClick={() => onAsk(QUESTIONS[key])} disabled={busy}>
+            {label}
+            <span aria-hidden="true">→</span>
+          </button>
         ))}
-      </ul>
-    </header>
+      </nav>
+      <p className="note">Answers come straight from Shahzad's résumé.</p>
+    </aside>
   );
 }
