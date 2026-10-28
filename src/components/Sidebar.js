@@ -24,7 +24,7 @@ export default function Sidebar({ onAsk, busy }) {
         </div>
       </div>
       <p className="status"><i aria-hidden="true" /> Open to opportunities</p>
-      <p className="now-at">Currently {experience[0].role} at <b>{experience[0].company}</b></p>
+      <p className="now-at">Building B2C and B2B marketplaces at <b>{experience[0].company}</b></p>
       <div className="links">
         <a href={profile.resume} download>Résumé ↓</a>
         <a href={profile.github} target="_blank" rel="noreferrer">GitHub</a>

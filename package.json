@@ -18,7 +18,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "resume": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/build-resume.mjs"
   },
   "eslintConfig": {
     "extends": [

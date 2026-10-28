@@ -1,4 +1,4 @@
-import { profile, experience, projects } from "../data/content";
+import { profile, experience, projects, marketplaces } from "../data/content";
 
 export const QUESTIONS = {
   about: "Who is Shahzad?",
@@ -12,9 +12,10 @@ export const QUESTIONS = {
 };
 
 const FOLLOW = {
-  greeting: ["about", "projects", "experience", "skills"],
-  about: ["projects", "now", "contact"],
+  greeting: ["about", "now", "projects", "skills"],
+  about: ["now", "projects", "contact"],
   now: ["experience", "projects", "contact"],
+  market: ["now", "contact"],
   experience: ["projects", "skills", "resume"],
   job: ["experience", "projects", "contact"],
   projects: ["skills", "experience", "contact"],
@@ -26,7 +27,7 @@ const FOLLOW = {
   fallback: ["about", "projects", "experience", "contact"],
 };
 
-const STOP = new Set(["the", "a", "an", "platform", "portal", "app", "application", "advanced", "website", "data", "pk", "of", "tech"]);
+const STOP = new Set(["the", "a", "an", "platform", "portal", "app", "application", "advanced", "website", "data", "pk", "of", "tech", "marketplace"]);
 const words = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim().split(" ").filter((w) => w && !STOP.has(w));
 const norm = (s) => ` ${s.toLowerCase().replace(/[^a-z0-9+]+/g, " ")} `;
 
@@ -51,14 +52,20 @@ const reply = (intent, text, kind, data) => ({ intent, text, kind, data, follow:
 export const greeting = () =>
   reply(
     "greeting",
-    "Hi! 👋 I'm Shahzad's portfolio assistant. I answer from his résumé, so ask me about his projects, experience, skills, or how to get in touch."
+    `Hi! 👋 I'm Shahzad's portfolio assistant. He's a language-agnostic software engineer with ${profile.years} years of experience, currently building B2C and B2B marketplaces. I answer from his résumé, so ask me about his work, projects, skills, or how to get in touch.`
   );
 
 export function answer(input) {
   const t = norm(input);
   const current = experience[0];
 
-  const project = best(projects, (p) => p.title, t);
+  const both = /b2b/.test(t) && /b2c/.test(t);
+  const project = !both && best(projects, (p) => p.title, t);
+  if (project?.current) {
+    const other = marketplaces.items.find((m) => m !== project);
+    const r = reply("market", `The ${project.title} is one of the two marketplaces he's building right now at ${current.company}. ${project.description}`, "project", project);
+    return { ...r, follow: [`Tell me about the ${other.title}`, ...r.follow] };
+  }
   if (project) {
     return reply("project", `${project.title} is ${typePhrase(project.type)}. ${project.description}`, "project", project);
   }
@@ -72,14 +79,19 @@ export function answer(input) {
     return reply("contact", "He'd love to hear from you. Leave a message right here, or email him directly:", "contact");
   }
   if (/resume|r sum | cv |pdf/.test(t)) return reply("resume", "Sure, here's his latest résumé:", "resume");
-  if (/ now |current|today|these days/.test(t)) {
-    return reply("now", `He's currently a ${current.role} at ${current.company} in ${current.place}, since ${current.period.split(" — ")[0]}.`, "job", current);
+  if (/ now |current|today|these days|marketplace|commerce|b2b|b2c|wholesale/.test(t)) {
+    const since = current.period.split(" — ")[0];
+    return reply(
+      "now",
+      `He's a ${current.role} at ${current.company} (${current.place}) since ${since}, building two marketplaces end to end: a multi-vendor B2C marketplace for shoppers and sellers, and a B2B wholesale marketplace for business buyers and suppliers. ${marketplaces.summary}`,
+      "now"
+    );
   }
   if (/educat|degree|universit|stud|certif|course/.test(t)) {
     return reply("education", "His education and certifications:", "education");
   }
-  if (/stack|skill|tech|language|framework|tool| know /.test(t)) {
-    return reply("skills", "Here's his toolkit, grouped by area:", "skills");
+  if (/stack|skill|tech|language|agnostic|framework|tool| know /.test(t)) {
+    return reply("skills", "He's language-agnostic, so the stack follows the problem. These are the tools he's shipped with most:", "skills");
   }
   if (/project|built|build|made|portfolio/.test(t)) {
     return reply("projects", `Here are ${projects.length} products he's worked on. Tap one to learn more:`, "projects");
@@ -90,8 +102,9 @@ export function answer(input) {
   if (/who|about|yourself|introduce|shahzad|background/.test(t)) {
     return reply("about", `${profile.summary[0]} ${profile.summary[1]}`, "chips", [
       `${profile.years} years experience`,
-      "Full-stack",
-      "Web + mobile",
+      "Language-agnostic",
+      "B2C + B2B marketplaces",
+      "Full-stack, web + mobile",
       "Open to opportunities",
     ]);
   }

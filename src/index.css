@@ -97,6 +97,16 @@ button { font: inherit; color: inherit; }
 .card-stack { font-size: 12.5px; color: var(--muted); }
 .card-more { margin-top: 6px; font-size: 12.5px; font-weight: 600; color: var(--accent); opacity: 0; transition: opacity 0.2s; }
 .card:hover .card-more { opacity: 1; }
+.card-now { position: absolute; top: 16px; right: 16px; }
+
+.markets { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr)); gap: 10px; }
+.market { display: grid; align-content: start; gap: 4px; padding: 16px; border-radius: 16px; border: 1px solid var(--line); background: linear-gradient(160deg, hsl(var(--h) 90% 97%), #fff 55%); }
+.market small { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: hsl(var(--h) 55% 45%); }
+.market b { font-size: 16px; color: var(--ink); }
+.market p { margin-bottom: 8px; font-size: 14px; color: var(--muted); }
+.modules li { display: grid; margin-bottom: 9px; }
+.modules b { color: var(--ink); font-size: 14px; }
+.modules span { font-size: 13.5px; color: var(--muted); }
 
 .jobs { display: grid; gap: 6px; }
 .jobs button { position: relative; display: grid; grid-template-columns: 150px 1fr auto auto; align-items: center; gap: 12px; width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 14px; background: #fff; text-align: left; cursor: pointer; transition: border-color 0.15s, transform 0.15s; }

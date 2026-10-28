@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import db from "../firebase";
-import { profile, experience, projects, skills, education, certifications } from "../data/content";
+import { profile, experience, projects, skills, education, certifications, marketplaces } from "../data/content";
 
 const HUES = [255, 160, 25, 210, 330, 190, 45];
 
@@ -18,6 +18,7 @@ export function ProjectCards({ onAsk }) {
       {projects.map((p, i) => (
         <button key={p.title} className="card" style={{ "--h": HUES[i % HUES.length] }} onClick={() => onAsk(`Tell me about the ${p.title}`)}>
           <span className="card-dot" />
+          {p.current && <em className="now card-now">Now</em>}
           <small>{p.type}</small>
           <b>{p.title}</b>
           <span className="card-stack">{p.stack.slice(0, 3).join(" · ")}</span>
@@ -28,9 +29,24 @@ export function ProjectCards({ onAsk }) {
   );
 }
 
+function Modules({ items }) {
+  return (
+    <ul className="points modules">
+      {items.map((m) => (
+        <li key={m.name}>
+          <b>{m.name}</b>
+          <span>{m.detail}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function ProjectDetail({ project }) {
   return (
     <div className="detail">
+      {project.audience && <span className="detail-label">Core modules · for {project.audience.toLowerCase()}</span>}
+      {project.modules && <Modules items={project.modules} />}
       <span className="detail-label">Built with</span>
       <Chips items={project.stack} />
     </div>
@@ -54,6 +70,29 @@ export function Jobs({ onAsk }) {
         </li>
       ))}
     </ol>
+  );
+}
+
+export function Now() {
+  const job = experience[0];
+  return (
+    <div className="detail">
+      <div className="markets">
+        {marketplaces.items.map((m, i) => (
+          <section key={m.title} className="market" style={{ "--h": HUES[i] }}>
+            <small>{m.audience}</small>
+            <b>{m.title}</b>
+            <p>{m.description}</p>
+            <Modules items={m.modules} />
+          </section>
+        ))}
+      </div>
+      <span className="detail-label">Across both</span>
+      <ul className="points">
+        {marketplaces.shared.map((p) => <li key={p}>{p}</li>)}
+      </ul>
+      <Chips items={job.stack} />
+    </div>
   );
 }
 
@@ -170,6 +209,7 @@ export function Rich({ kind, data, onAsk }) {
     case "project": return <ProjectDetail project={data} />;
     case "jobs": return <Jobs onAsk={onAsk} />;
     case "job": return <JobDetail job={data} />;
+    case "now": return <Now />;
     case "skills": return <Skills />;
     case "education": return <Education />;
     case "resume": return <ResumeCard />;
