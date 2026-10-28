@@ -178,6 +178,9 @@ export function ContactCard() {
     // Run both so one failing doesn't lose the message; it only fails if neither worked.
     const jobs = [save(), emailConfigured ? sendNotification(form) : Promise.reject(new Error("email not configured"))];
     const results = await Promise.allSettled(jobs);
+    results.forEach((r, i) => {
+      if (r.status === "rejected") console.error(`Contact ${i ? "email" : "save"} failed:`, r.reason?.text || r.reason?.message || r.reason);
+    });
     if (results.some((r) => r.status === "fulfilled")) {
       setStatus({ state: "ok", text: "Message sent! He'll get back to you soon." });
       setForm(EMPTY);
