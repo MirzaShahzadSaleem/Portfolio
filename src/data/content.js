@@ -2,6 +2,7 @@ export const profile = {
   name: "Shahzad Saleem",
   role: "Language-Agnostic Software Engineer",
   years: "5+",
+  shipped: "25+",
   tagline:
     "A language-agnostic software engineer building B2C and B2B marketplaces and full-stack web and mobile products, from database design to polished interfaces.",
   email: "mirzashahzadsaleem021@gmail.com",
@@ -12,7 +13,7 @@ export const profile = {
   resume: "/Shahzad-Saleem-Resume.pdf",
   summary: [
     "Shahzad is a language-agnostic software engineer with 5+ years of experience shipping full-stack web and mobile products. He picks the language and framework that fit the problem; day to day that's mostly TypeScript, JavaScript and SQL across React, Next.js, Node.js and Nest.js.",
-    "Right now he's building B2C and B2B marketplaces end to end at The Exact Solutions. Before that he shipped products in fintech, healthcare, education, IoT and real estate with teams in Pakistan, Poland, the US and Australia.",
+    "Right now he's building B2C and B2B marketplaces end to end at The Exact Solutions. Before that he shipped 25+ live, production-ready projects in fintech, healthcare, education, IoT and real estate with teams in Pakistan, Poland, the US and Australia.",
     "He cares about performance, clean backend architecture and maintainable code, and he's comfortable owning a feature from schema to UI in agile, cross-functional teams.",
   ],
 };
@@ -204,7 +205,7 @@ export const projects = [
 
 export const cv = {
   summary:
-    "Software Engineer with 5+ years of experience designing, building and scaling full-stack web and mobile products. Currently building a multi-vendor B2C marketplace and a B2B wholesale marketplace end to end at The Exact Solutions, owning core modules such as payments and escrow, the Buy Box algorithm, settlements, contract pricing and RFQ workflows. Chooses languages and frameworks by the problem, with deep hands-on experience in TypeScript, JavaScript, SQL, React, Next.js, Node.js, Nest.js and React Native. Has delivered products across e-commerce, fintech, healthcare, education, IoT and real estate for teams in Pakistan, Poland, the US and Australia.",
+    "Software Engineer with 5+ years of experience designing, building and scaling full-stack web and mobile products. Currently building a multi-vendor B2C marketplace and a B2B wholesale marketplace end to end at The Exact Solutions, owning core modules such as payments and escrow, the Buy Box algorithm, settlements, contract pricing and RFQ workflows. Chooses languages and frameworks by the problem, with deep hands-on experience in TypeScript, JavaScript, SQL, React, Next.js, Node.js, Nest.js and React Native. Has delivered 25+ live, production-ready projects across e-commerce, fintech, healthcare, education, IoT and real estate for teams in Pakistan, Poland, the US and Australia.",
   expertise: [
     "B2C & B2B marketplaces",
     "Payments, escrow & settlements",

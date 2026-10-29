@@ -127,7 +127,7 @@ const html = `<!doctype html>
   </section>
 
   <section>
-    <h2>Key projects</h2>
+    <h2>Key projects · selected from ${esc(profile.shipped)} live projects</h2>
     <div class="projects">${projects.filter((p) => !p.current).map(project).join("")}</div>
   </section>
 

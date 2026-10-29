@@ -1,4 +1,5 @@
 import { profile, experience, projects, marketplaces } from "../data/content";
+import { KNOWLEDGE, OTHER_TECH, HIGHLIGHTS } from "./knowledge";
 
 export const QUESTIONS = {
   about: "Who is Shahzad?",
@@ -55,6 +56,35 @@ export const greeting = () =>
     `Hi! 👋 I'm Shahzad's portfolio assistant. He's a language-agnostic software engineer with ${profile.years} years of experience, currently building B2C and B2B marketplaces. I answer from his résumé, so ask me about his work, projects, skills, or how to get in touch.`
   );
 
+const FIRST_TOPIC = KNOWLEDGE.findIndex((e) => e.topic);
+let highlight = 0;
+
+const kb = (e) => ({ intent: "kb", text: e.a, kind: e.kind, data: e.data, follow: (e.follow || FOLLOW.fallback).map((k) => QUESTIONS[k]) });
+
+// Answers from the knowledge base: early practical entries first, then up to two matching topics combined.
+function lookup(input) {
+  const raw = ` ${input.toLowerCase()} `;
+  const hits = KNOWLEDGE.filter((e) => e.q.test(raw));
+  if (hits[0]?.offTopic) return "off-topic";
+  if (hits[0] && !hits[0].topic && KNOWLEDGE.indexOf(hits[0]) < FIRST_TOPIC) return kb(hits[0]);
+
+  const other = OTHER_TECH.filter(([q]) => q.test(raw)).map(([, name, closest]) => ({
+    a: `${name} isn't on his résumé, but he's language-agnostic. ${closest}`,
+    follow: ["skills", "contact"],
+  }));
+  const parts = [...hits.filter((e) => e.topic), ...other].slice(0, 2);
+  if (parts.length) {
+    const chips = [...new Set(parts.flatMap((e) => (e.kind === "chips" ? e.data : [])))];
+    return kb({ a: parts.map((e) => e.a).join(" "), kind: chips.length ? "chips" : parts[0].kind, data: chips.length ? chips : parts[0].data, follow: parts[0].follow });
+  }
+  return hits[0] ? kb(hits[0]) : null;
+}
+
+function fallback() {
+  const fact = HIGHLIGHTS[highlight++ % HIGHLIGHTS.length];
+  return reply("fallback", `That one's outside what I know, since I only know Shahzad's story. But here's something worth knowing: ${fact} Want to hear more?`);
+}
+
 export function answer(input) {
   const t = norm(input);
   const current = experience[0];
@@ -75,6 +105,10 @@ export function answer(input) {
     return reply("job", `${job.role} at ${job.company}${where}, ${job.period.replace("—", "to")}.`, "job", job);
   }
 
+  const known = lookup(input);
+  if (known === "off-topic") return fallback();
+  if (known) return known;
+
   if (/contact|email|reach|hire|message|talk|touch/.test(t)) {
     return reply("contact", "He'd love to hear from you. Leave a message right here, or email him directly:", "contact");
   }
@@ -94,7 +128,7 @@ export function answer(input) {
     return reply("skills", "He's language-agnostic, so the stack follows the problem. These are the tools he's shipped with most:", "skills");
   }
   if (/project|built|build|made|portfolio/.test(t)) {
-    return reply("projects", `Here are ${projects.length} products he's worked on. Tap one to learn more:`, "projects");
+    return reply("projects", `He's shipped ${profile.shipped} live, production-ready projects. Here are ${projects.length} highlights; tap one to learn more:`, "projects");
   }
   if (/experience|worked|work|job|career|compan|employ/.test(t)) {
     return reply("experience", `He has ${profile.years} years of experience across ${experience.length} roles. Tap one for details:`, "jobs");
@@ -102,6 +136,7 @@ export function answer(input) {
   if (/who|about|yourself|introduce|shahzad|background/.test(t)) {
     return reply("about", `${profile.summary[0]} ${profile.summary[1]}`, "chips", [
       `${profile.years} years experience`,
+      `${profile.shipped} live projects`,
       "Language-agnostic",
       "B2C + B2B marketplaces",
       "Full-stack, web + mobile",
@@ -109,5 +144,5 @@ export function answer(input) {
     ]);
   }
   if (/^ (hi|hello|hey|salam|yo) /.test(t)) return greeting();
-  return reply("fallback", "I can only answer questions about Shahzad's work. Try one of these:");
+  return fallback();
 }

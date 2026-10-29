@@ -79,7 +79,7 @@ export default function Chat({ askRef, onBusy }) {
         <input
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Ask anything about Shahzad… e.g. “tell me about the immigration portal”"
+          placeholder="Ask anything… e.g. “does he know Python?” or “what is a Buy Box?”"
           aria-label="Ask a question"
           autoComplete="off"
         />
